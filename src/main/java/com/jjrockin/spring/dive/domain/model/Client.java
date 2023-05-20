@@ -17,27 +17,27 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Cliente {
+public class Client {
 
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(groups = ValidationGroups.ClienteId.class)
+    @NotNull(groups = ValidationGroups.ClientId.class)
     private Long id;
 
     @NotBlank
     @Size(max = 60)
-    private String nome;
+    private String name;
 
     @NotBlank
     @Email
     @Size(max = 255)
     private String email;
 
-    @Column(name = "fone")
     @NotBlank
     @Size(max = 20)
-    private String telefone;
+    @Column(name = "phone_number")
+    private String telephone;
 
 
 

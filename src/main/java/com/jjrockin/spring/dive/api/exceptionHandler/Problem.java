@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
@@ -13,13 +13,13 @@ import java.util.List;
 public class Problem {
 
     private Integer status;
-    private LocalDateTime dataHora;
-    private String titulo;
-    private List<Campo> campos;
+    private OffsetDateTime dateTime;
+    private String title;
+    private List<FieldToBeListed> fieldsToBeListed;
     @Getter
     @AllArgsConstructor
-    public static class Campo {
-        private String nome;
+    public static class FieldToBeListed {
+        private String name;
         private String message;
     }
 }

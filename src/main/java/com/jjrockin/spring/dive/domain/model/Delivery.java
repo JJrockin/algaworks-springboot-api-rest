@@ -15,7 +15,7 @@ import java.time.OffsetDateTime;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class Entrega {
+public class Delivery {
 
     @EqualsAndHashCode.Include
     @Id
@@ -23,26 +23,26 @@ public class Entrega {
     private Long id;
 
     @Valid
-    @ConvertGroup(to = ValidationGroups.ClienteId.class)
+    @ConvertGroup(to = ValidationGroups.ClientId.class)
     @NotNull
     @ManyToOne
-    private Cliente cliente;
+    private Client client;
 
     @Valid
     @NotNull
     @Embedded
-    private Destinatario destinatario;
+    private Recipient recipient;
 
     @NotNull
-    private BigDecimal taxa;
+    private BigDecimal tax;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Enumerated(EnumType.STRING)
-    private StatusEntrega status;
+    private StatusDelivery status;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private OffsetDateTime dataPedido;
+    private OffsetDateTime orderDate;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private OffsetDateTime dataFinalizacao;
+    private OffsetDateTime finishDate;
 
 }
