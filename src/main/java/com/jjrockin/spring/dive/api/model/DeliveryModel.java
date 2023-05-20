@@ -9,7 +9,7 @@ import java.time.OffsetDateTime;
 public class DeliveryModel {
 
     private Long id;
-    private String clientName;
+    private ClientBasicModel client;
     private RecipientModel recipient;
     private BigDecimal tax;
     private StatusDelivery status;

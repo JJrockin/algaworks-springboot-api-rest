@@ -12,8 +12,8 @@ public class CatalogClientService {
     @Autowired
     private ClientRepository clientRepository;
 
-    public Client findClientById(Long clienteId) {
-        return clientRepository.findById(clienteId)
+    public Client findClientById(Long clientId) {
+        return clientRepository.findById(clientId)
                 .orElseThrow(() -> new BusinessRulesException("Client not found"));
     }
     @Transactional

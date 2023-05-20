@@ -1,10 +1,11 @@
 package com.jjrockin.spring.dive.api.controller;
 
+import com.jjrockin.spring.dive.api.mapper.DeliveryMapper;
 import com.jjrockin.spring.dive.api.model.DeliveryModel;
+import com.jjrockin.spring.dive.api.model.input.DeliveryInput;
 import com.jjrockin.spring.dive.domain.model.Delivery;
 import com.jjrockin.spring.dive.domain.repository.DeliveryRepository;
 import com.jjrockin.spring.dive.domain.service.RequestDeliveryService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,27 +22,26 @@ public class DeliveryController {
     @Autowired
     private DeliveryRepository repository;
     @Autowired
-    private ModelMapper modelMapper;
+    private DeliveryMapper deliveryMapper;
 
     @GetMapping
-    public List<Delivery> listAllDeliveries(){
-        return repository.findAll();
+    public List<DeliveryModel> listAllDeliveries(){
+        return deliveryMapper.toCollectionModel(repository.findAll());
     }
 
     @GetMapping("/{deliveryId}")
     public ResponseEntity<DeliveryModel> searchById(@PathVariable Long deliveryId){
         return repository.findById(deliveryId)
-                .map(delivery -> {
-                    DeliveryModel deliveryModel = modelMapper.map(delivery, DeliveryModel.class);
-                    return ResponseEntity.ok(deliveryModel);
-                })
+                .map(delivery -> ResponseEntity.ok(deliveryMapper.toModel(delivery)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Delivery order(@Valid @RequestBody Delivery delivery) {
-        return service.orderDelivery(delivery);
+    public DeliveryModel order(@Valid @RequestBody DeliveryInput deliveryInput) {
+        Delivery newDelivery = deliveryMapper.toEntity(deliveryInput);
+        Delivery order = service.orderDelivery(newDelivery);
+        return deliveryMapper.toModel(order);
     }
 
 }
