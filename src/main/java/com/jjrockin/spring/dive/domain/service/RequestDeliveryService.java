@@ -31,5 +31,11 @@ public class RequestDeliveryService {
         return deliveryRepository.findById(deliveryId)
                 .orElseThrow(() -> new EntityNotFoundException("Delivery not found"));
     }
+    @Transactional
+    public void finishDeliveryProcess(Long deliveryId){
+        Delivery delivery = this.findDeliveryById(deliveryId);
+        delivery.finishDelivery();
+        deliveryRepository.save(delivery);
+    }
 
 }

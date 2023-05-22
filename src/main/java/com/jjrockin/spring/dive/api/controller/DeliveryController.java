@@ -44,4 +44,10 @@ public class DeliveryController {
         return deliveryMapper.toModel(order);
     }
 
+    @PutMapping("/{deliveryId}/finish")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void finishDelivery(@PathVariable Long deliveryId){
+        service.finishDeliveryProcess(deliveryId);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.jjrockin.spring.dive.domain.model;
 
+import com.jjrockin.spring.dive.domain.exception.BusinessRulesException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -45,5 +46,21 @@ public class Delivery {
 
         this.getEventReports().add(eventReport);
         return eventReport;
+    }
+
+    public void finishDelivery() {
+        if(canNotBeFinished()){
+            throw new BusinessRulesException("Delivery process cannot be finished");
+        }
+        setStatus(StatusDelivery.FINISHED);
+        setFinishDate(OffsetDateTime.now());
+    }
+
+    public boolean canBeFinished(){
+        return StatusDelivery.PENDING.equals(getStatus());
+    }
+
+    public boolean canNotBeFinished(){
+        return !canBeFinished();
     }
 }
