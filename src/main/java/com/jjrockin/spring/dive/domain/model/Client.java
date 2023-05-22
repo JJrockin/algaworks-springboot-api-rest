@@ -1,6 +1,5 @@
 package com.jjrockin.spring.dive.domain.model;
 
-import com.jjrockin.spring.dive.domain.ValidationGroups;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,7 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -22,7 +20,6 @@ public class Client {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(groups = ValidationGroups.ClientId.class)
     private Long id;
 
     @NotBlank
