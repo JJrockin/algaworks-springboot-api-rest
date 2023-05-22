@@ -1,6 +1,7 @@
 package com.jjrockin.spring.dive.api.exceptionHandler;
 
 import com.jjrockin.spring.dive.domain.exception.BusinessRulesException;
+import com.jjrockin.spring.dive.domain.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -46,6 +47,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BusinessRulesException.class)
     public ResponseEntity<Object> handleBusinessRules(BusinessRulesException ex, WebRequest request){
         HttpStatus status  = HttpStatus.BAD_REQUEST;
+
+        Problem problem = new Problem();
+        problem.setStatus(status.value());
+        problem.setDateTime(OffsetDateTime.now());
+        problem.setTitle(ex.getMessage());
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex, WebRequest request){
+        HttpStatus status = HttpStatus.NOT_FOUND;
 
         Problem problem = new Problem();
         problem.setStatus(status.value());

@@ -5,12 +5,12 @@ import com.jjrockin.spring.dive.api.model.input.DeliveryInput;
 import com.jjrockin.spring.dive.domain.model.Delivery;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Configuration
+@Component
 public class DeliveryMapper {
     @Autowired
     private ModelMapper modelMapper;

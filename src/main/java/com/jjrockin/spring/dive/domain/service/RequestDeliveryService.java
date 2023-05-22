@@ -1,6 +1,6 @@
 package com.jjrockin.spring.dive.domain.service;
 
-import com.jjrockin.spring.dive.domain.exception.BusinessRulesException;
+import com.jjrockin.spring.dive.domain.exception.EntityNotFoundException;
 import com.jjrockin.spring.dive.domain.model.Client;
 import com.jjrockin.spring.dive.domain.model.Delivery;
 import com.jjrockin.spring.dive.domain.model.StatusDelivery;
@@ -29,7 +29,7 @@ public class RequestDeliveryService {
     @Transactional
     public Delivery findDeliveryById(Long deliveryId){
         return deliveryRepository.findById(deliveryId)
-                .orElseThrow(() -> new BusinessRulesException("Delivery not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Delivery not found"));
     }
 
 }
