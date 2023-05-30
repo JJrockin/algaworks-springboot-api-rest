@@ -45,7 +45,7 @@ class RequestDeliveryServiceTest {
 
 
         Mockito.when(clientService.findClientById(delivery.getClient().getId()))
-                .thenReturn(client);
+                .thenReturn(Optional.of(client));
 
         requestDeliveryService.orderDelivery(delivery);
 
@@ -58,6 +58,30 @@ class RequestDeliveryServiceTest {
         Assertions.assertThat(deliverySaved.getStatus()).isEqualByComparingTo(StatusDelivery.PENDING);
         Assertions.assertThat(deliverySaved.getOrderDate()).isNotNull();
 
+    }
+
+    @Test
+    @DisplayName("Should Throw Exception when Client not found")
+    void orderDeliveryClientNotFound() {
+
+        Client client = new Client();
+        client.setId(1L);
+        client.setName("JJ");
+        client.setEmail("jeronimo@email.com");
+        client.setTelephone("81 98756-8625");
+
+        Delivery delivery = new Delivery();
+        delivery.setClient(client);
+
+
+        Mockito.when(clientService.findClientById(delivery.getClient().getId()))
+                .thenReturn(Optional.empty());
+
+        EntityNotFoundException notFoundException =
+                assertThrows(EntityNotFoundException.class,
+                        () -> requestDeliveryService.orderDelivery(delivery));
+
+        Assertions.assertThat(notFoundException.getMessage()).isEqualTo("Client not found");
     }
 
     @Test
