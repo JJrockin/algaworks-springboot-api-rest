@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
+import java.util.Optional;
 
 @Service
 public class RequestDeliveryService {
@@ -19,8 +20,11 @@ public class RequestDeliveryService {
     private CatalogClientService catalogClientService;
     @Transactional
     public Delivery orderDelivery(Delivery delivery) {
-        Client client = catalogClientService.findClientById(delivery.getClient().getId());
-        delivery.setClient(client);
+        Optional<Client> client = catalogClientService.findClientById(delivery.getClient().getId());
+        if(client.isEmpty()){
+            throw new EntityNotFoundException("Client not found");
+        }
+        delivery.setClient(client.get());
         delivery.setStatus(StatusDelivery.PENDING);
         delivery.setOrderDate(OffsetDateTime.now());
 
