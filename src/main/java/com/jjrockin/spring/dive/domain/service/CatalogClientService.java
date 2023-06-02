@@ -7,16 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
+@Transactional
 public class CatalogClientService {
     @Autowired
     private ClientRepository clientRepository;
 
-    public Client findClientById(Long clientId) {
-        return clientRepository.findById(clientId)
-                .orElseThrow(() -> new BusinessRulesException("Client not found"));
+    public List<Client> findAllClients(){
+        return clientRepository.findAll();
     }
-    @Transactional
+
+    public Optional<Client> findClientById(Long clientId) {
+        return clientRepository.findById(clientId);
+    }
     public Client saveClient(Client client) {
         boolean emailInUse = clientRepository.findByEmail(client.getEmail())
                 .stream()
@@ -26,7 +32,6 @@ public class CatalogClientService {
         }
         return clientRepository.save(client);
     }
-    @Transactional
     public void deleteClient(Long clientId) {
         clientRepository.deleteById(clientId);
     }
